@@ -8,13 +8,11 @@ import {
 import { pokemonListStyles } from "./PokemonList.styled";
 import { PokemonInterface } from "../../domain/pokemon";
 import { useNavigate } from "react-router-dom";
+import PokemonCard from "../PokemonCard/PokemonCard";
 
 const {
   CarouselContainer,
   StyledCarousel,
-  PokemonCard,
-  PokemonImage,
-  PokemonName,
 } = pokemonListStyles;
 
 interface ListPokemonProps {
@@ -61,11 +59,13 @@ const ListPokemon: React.FC<ListPokemonProps> = ({ type }) => {
         ]}
       >
         {pokemons.map((pokemon: PokemonInterface) => (
-          <div key={pokemon.name} onClick={() => handlePokemonClick(pokemon.name)}>
-            <PokemonCard>
-              <PokemonImage src={pokemon.image} alt={pokemon.name} />
-              <PokemonName>{pokemon.name}</PokemonName>
-            </PokemonCard>
+          <div key={pokemon.name} >
+           <PokemonCard
+              name={pokemon.name}
+              image={pokemon.image}
+              alt={pokemon.name}
+              onClick={() => handlePokemonClick(pokemon.name)}
+            />
           </div>
         ))}
       </StyledCarousel>

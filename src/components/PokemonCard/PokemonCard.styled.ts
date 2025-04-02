@@ -1,10 +1,6 @@
 import { styled } from "styled-components";
 
-const SearchContainer = styled.div`
-  text-align: center;
-  width:300px;
-`;
-const PokemonCard = styled.div`
+const CardContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -37,10 +33,8 @@ const PokemonName = styled.p`
   text-transform: capitalize;
 `;
 
-
-export const SearchPokemonStyled = {
-  SearchContainer,
-  PokemonCard,
+export const PokemonCardStyled = {
+  CardContainer,
   PokemonImage,
   PokemonName,
 };

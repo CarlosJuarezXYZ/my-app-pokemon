@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, ChangeEvent } from "react";
+import React, { useEffect, useState, useRef, useCallback, useMemo, ChangeEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Modal, Input, Spin, Row, Col } from "antd";
 import { AppDispatch } from "../../redux/store";
@@ -9,9 +9,9 @@ import {
 import { SearchPokemonStyled } from "./SearchPokemon.styled";
 import { PokemonInterface } from "../../domain/pokemon";
 import { useNavigate } from "react-router-dom";
+import PokemonCard from "../PokemonCard/PokemonCard";
 
-const { SearchContainer, PokemonCard, PokemonImage, PokemonName } =
-  SearchPokemonStyled;
+const { SearchContainer } = SearchPokemonStyled;
 
 const SearchPokemon: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -19,38 +19,49 @@ const SearchPokemon: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [isFetching, setIsFetching] = useState(false);
+  const [hasFetched, setHasFetched] = useState(false);
   const observer = useRef<IntersectionObserver | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isModalOpen && pokemons.length === 0) {
-      dispatch(fetchAllPokemons());
+    if (isModalOpen && !hasFetched) {
+      dispatch(fetchAllPokemons()).then(() => setHasFetched(true));
     }
-  }, [isModalOpen, dispatch, pokemons.length]);
+  }, [isModalOpen, dispatch, hasFetched]);
 
-  const filteredPokemons = pokemons.filter((pokemon: PokemonInterface) =>
-    pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredPokemons = useMemo(
+    () =>
+      pokemons.filter((pokemon: PokemonInterface) =>
+        pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
+      ),
+    [pokemons, searchTerm]
   );
 
-  const lastPokemonRef = (node: HTMLDivElement | null) => {
-    if (isFetching) return;
-    if (observer.current) observer.current.disconnect();
-    observer.current = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setIsFetching(true);
-          dispatch(fetchAllPokemons()).finally(() => setIsFetching(false));
-        }
-      },
-      { threshold: 1.0 }
-    );
-    if (node) observer.current.observe(node);
-  };
+  const lastPokemonRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      if (isFetching || !hasFetched) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) {
+            setIsFetching(true);
+            dispatch(fetchAllPokemons()).finally(() => setIsFetching(false));
+          }
+        },
+        { threshold: 1.0 }
+      );
+      if (node) observer.current.observe(node);
+    },
+    [dispatch, isFetching, hasFetched]
+  );
 
-  const handlePokemonClick = (name: string) => {
-    setIsModalOpen(false);
-    navigate(`/detail/${name}`);
-  };
+  const handlePokemonClick = useCallback(
+    (name: string) => {
+      setIsModalOpen(false);
+      navigate(`/detail/${name}`);
+    },
+    [navigate]
+  );
 
   return (
     <SearchContainer>
@@ -79,7 +90,7 @@ const SearchPokemon: React.FC = () => {
         />
 
         <Row gutter={[16, 16]} justify="center">
-          {filteredPokemons.map((pokemon:any, index:any) => (
+          {filteredPokemons.map((pokemon: PokemonInterface, index: number) => (
             <Col
               key={pokemon.name}
               xs={12}
@@ -89,10 +100,12 @@ const SearchPokemon: React.FC = () => {
               xl={3}
               ref={index === filteredPokemons.length - 1 ? lastPokemonRef : null}
             >
-              <PokemonCard onClick={() => handlePokemonClick(pokemon.name)}>
-                <PokemonImage src={pokemon.image} alt={pokemon.name} />
-                <PokemonName>{pokemon.name}</PokemonName>
-              </PokemonCard>
+              <PokemonCard
+                onClick={() => handlePokemonClick(pokemon.name)}
+                image={pokemon.image}
+                alt={pokemon.name}
+                name={pokemon.name}
+              />
             </Col>
           ))}
         </Row>
