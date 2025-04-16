@@ -11,7 +11,7 @@ import { PokemonInterface } from "../../domain/pokemon";
 import { useNavigate } from "react-router-dom";
 import PokemonCard from "../PokemonCard/PokemonCard";
 
-const { SearchContainer } = SearchPokemonStyled;
+const { SearchContainer,ModalPokemon } = SearchPokemonStyled;
 
 const SearchPokemon: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -24,10 +24,20 @@ const SearchPokemon: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const fetchPokemons = async () => {
+      try {
+        await dispatch(fetchAllPokemons());
+        setHasFetched(true);
+      } catch (error) {
+        console.error("Error fetching Pokémon:", error);
+      }
+    };
+  
     if (isModalOpen && !hasFetched) {
-      dispatch(fetchAllPokemons()).then(() => setHasFetched(true));
+      fetchPokemons();
     }
   }, [isModalOpen, dispatch, hasFetched]);
+
 
   const filteredPokemons = useMemo(
     () =>
@@ -38,19 +48,22 @@ const SearchPokemon: React.FC = () => {
   );
 
   const lastPokemonRef = useCallback(
-    (node: HTMLDivElement | null) => {
-      if (isFetching || !hasFetched) return;
+    (lastPokemonElement: HTMLDivElement | null) => {
+      if (isFetching || !hasFetched) return; 
+  
       if (observer.current) observer.current.disconnect();
+  
       observer.current = new IntersectionObserver(
-        (entries) => {
-          if (entries[0].isIntersecting) {
+        ([entry]) => {
+          if (entry.isIntersecting) { 
             setIsFetching(true);
             dispatch(fetchAllPokemons()).finally(() => setIsFetching(false));
           }
         },
         { threshold: 1.0 }
       );
-      if (node) observer.current.observe(node);
+  
+      if (lastPokemonElement) observer.current.observe(lastPokemonElement);
     },
     [dispatch, isFetching, hasFetched]
   );
@@ -71,14 +84,12 @@ const SearchPokemon: React.FC = () => {
         readOnly
       />
 
-      <Modal
+      <ModalPokemon
         title="Buscar Pokémon"
         open={isModalOpen}
         onCancel={() => setIsModalOpen(false)}
         footer={null}
         width="100vw"
-        style={{ top: 0, padding: 0 }}
-        bodyStyle={{ height: "100vh", overflowY: "auto", padding: "20px" }}
       >
         <Input
           placeholder="Filtrar Pokémon..."
@@ -115,7 +126,7 @@ const SearchPokemon: React.FC = () => {
             <Spin />
           </div>
         )}
-      </Modal>
+      </ModalPokemon>
     </SearchContainer>
   );
 };
