@@ -12,7 +12,7 @@ const ToastContainer = styled.div`
   align-items: center;
   gap: 12px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
-  z-index: 9999; /* Asegura que esté por encima de todo */
+  z-index: 9999;
   pointer-events: auto;
 `;
 

@@ -1,18 +1,18 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { getPokemonImage } from "../../utils/getPokemonImage";
-import { PokemonInterface } from "../../domain/pokemon";
+import { PokemonDetailInterface, PokemonInterface } from "../../domain/pokemon";
 
 interface PokemonState {
-  allPokemons: any[];
+  allPokemons: PokemonInterface[];
   pokemon: PokemonInterface;
-  pokemonDetail: any;
+  pokemonDetail: PokemonDetailInterface | null;
   status: "idle" | "loading" | "succeeded" | "failed";
-  typePokemonList: { [key: string]: any[] };
+  typePokemonList: { [key: string]: PokemonInterface[] };
   error: string | null;
   nextUrl: string | null;
-  visitedPokemons: any[];
-  lastViewed: any;
+  visitedPokemons:  PokemonDetailInterface[];
+  lastViewed: PokemonDetailInterface | null;
 }
 
 const initialState: PokemonState = {
@@ -77,10 +77,10 @@ export const fetchPokemonDetail = createAsyncThunk(
       image: getPokemonImage(response.data.id),
       height: response.data.height,
       weight: response.data.weight,
-      types: response.data.types.map((t: any) => t.type.name),
-      stats: response.data.stats.map((s: any) => ({
-        name: s.stat.name,
-        value: s.base_stat,
+      types: response.data.types.map((type: any) => type.type.name),
+      stats: response.data.stats.map((stat: any) => ({
+        name: stat.stat.name,
+        value: stat.base_stat,
       })),
     };
   }
@@ -91,7 +91,7 @@ const pokemonSlice = createSlice({
   initialState,
   reducers: {
     addToHistory: (state, action) => {
-      const exists = state.visitedPokemons.some(p => p.id === action.payload.id);
+      const exists = state.visitedPokemons.some(pokemon => pokemon.id === action.payload.id);
       if (!exists) {
         state.visitedPokemons.push(action.payload);
       }
@@ -132,7 +132,7 @@ const pokemonSlice = createSlice({
         state.status = "succeeded";
         state.pokemonDetail = action.payload;
 
-        const exists = state.visitedPokemons.some(p => p.id === action.payload.id);
+        const exists = state.visitedPokemons.some(pokemon => pokemon.id === action.payload.id);
         if (!exists) {
           state.visitedPokemons.push(action.payload);
         }

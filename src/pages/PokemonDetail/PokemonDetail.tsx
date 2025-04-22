@@ -16,7 +16,6 @@ const PokemonDetail = () => {
   const { pokemonDetail, status, error, visitedPokemons } = useSelector(
     (state: RootState) => state.pokemon
   );
-
   useEffect(() => {
     if (name) dispatch(fetchPokemonDetail(name));
   }, [dispatch, name]);
@@ -41,7 +40,7 @@ const PokemonDetail = () => {
         <p><strong>Altura:</strong> {pokemonDetail?.height} decímetros</p>
         <p><strong>Peso:</strong> {pokemonDetail?.weight} hectogramos</p>
         <p><strong>Tipos:</strong> {pokemonDetail?.types?.join(", ")}</p>
-        <p><strong>Habilidades:</strong> {pokemonDetail?.abilities?.join(", ")}</p>
+        <p><strong>Habilidades:</strong> {pokemonDetail?.stasts?.map(({name,value})=>`${name}${value}`)}</p>
       </Card>
     </Container>
   );
