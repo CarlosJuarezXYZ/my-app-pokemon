@@ -3,14 +3,15 @@ import { styled } from "styled-components";
 
 const HeaderContainer = styled.header`
   width: 100%;
-  background: linear-gradient(135deg, #ff7f7f, #ffd699);
-  padding: 15px 0;
+  background: linear-gradient(135deg,#ffffff, #A5D8FF);
+  //background: linear-gradient(135deg, #1e1e2f, #4a6fa1);
+  padding: 15px 10px;
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   top: 0;
   left: 0;
+  border:1px solid #A5D8FF;
 `;
 
 const NavMenu = styled.nav`
@@ -26,7 +27,7 @@ const NavItem = styled(Link)`
   transition: all 0.3s ease;
 
   &:hover {
-    color: #ffcc00;
+    color:rgb(165, 193, 255);
     text-decoration: underline;
   }
 `;

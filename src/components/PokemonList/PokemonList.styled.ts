@@ -2,8 +2,7 @@ import { Carousel } from "antd";
 import { styled } from "styled-components";
 
 const CarouselContainer = styled.div`
-  width: 90%;
-  max-width: 1200px;
+  width: 100%;
   margin: auto;
   padding: 20px;
   overflow: hidden;
@@ -21,9 +20,9 @@ const StyledCarousel = styled(Carousel)`
   }
 
   .slick-prev, .slick-next {
-    width: 40px;
-    height: 40px;
-    background-color: rgba(0, 0, 0, 0.7);
+    width: 44px;
+    height: 44px;
+    background-color: rgba(0, 0, 0, 0.6);
     border-radius: 50%;
     display: flex !important;
     align-items: center;
@@ -33,19 +32,30 @@ const StyledCarousel = styled(Carousel)`
     top: 50%;
     transform: translateY(-50%);
     transition: background 0.3s ease-in-out;
+    cursor: pointer;
   }
 
-  .slick-prev { left: -15px; }
-  .slick-next { right: -15px; }
-
-  .slick-prev:hover, .slick-next:hover {
-    background-color: rgba(0, 0, 0, 1);
+  .slick-prev {
+    left: -20px;
   }
 
-  .slick-prev:before, .slick-next:before {
+  .slick-next {
+    right: -20px;
+  }
+
+  .slick-prev:hover,
+  .slick-next:hover {
+    background-color: rgba(0, 0, 0, 0.85);
+  }
+
+  .slick-prev:before,
+  .slick-next:before {
     color: white !important;
-    font-size: 24px;
-    font-weight: bold;
+    font-size: 30px;
+    font-weight: bold !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 `;
 

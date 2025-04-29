@@ -19,24 +19,7 @@ const Card = styled.div`
   width: 100%;
 `;
 
-const BackButton = styled.button`
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 24px;
-  color: #333;
-  transition: color 0.3s;
-
-  &:hover {
-    color: #d32f2f;
-  }
-`;
-
 export const PokemonDetailStyled = {
   Container,
   Card,
-  BackButton,
 };

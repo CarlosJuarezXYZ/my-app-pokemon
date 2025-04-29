@@ -4,15 +4,13 @@ import { useParams, useNavigate } from "react-router-dom";
 import { AppDispatch, RootState } from "../../redux/store";
 import { fetchPokemonDetail, addToHistory } from "../../redux/slices/pokemonSlice";
 import Loader from "../../components/Loader/Loader";
-import { FaArrowLeft } from "react-icons/fa";
 import { PokemonDetailStyled } from "./PokemonDetail.styled";
 
-const { Container, Card, BackButton } = PokemonDetailStyled;
+const { Container, Card } = PokemonDetailStyled;
 
 const PokemonDetail = () => {
   const { name } = useParams<{ name: string }>();
   const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
   const { pokemonDetail, status, error, visitedPokemons } = useSelector(
     (state: RootState) => state.pokemon
   );
@@ -31,9 +29,6 @@ const PokemonDetail = () => {
 
   return (
     <Container>
-      <BackButton onClick={() => navigate(-1)}>
-        <FaArrowLeft />
-      </BackButton>
       <Card>
         <h2>Detalles de {pokemonDetail?.name}</h2>
         <img src={pokemonDetail?.image} alt={pokemonDetail?.name} width={150} />

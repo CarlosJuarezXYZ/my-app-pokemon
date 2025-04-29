@@ -12,11 +12,14 @@ const CardContainer = styled.div`
   transition: transform 0.3s ease-in-out;
   cursor: pointer;
   width: 100%;
-  max-width: 150px;
+  max-width: 180px;
   margin: auto;
 
   &:hover {
     transform: scale(1.05);
+  }
+  @media (max-width: 445px) {
+  max-width: 210px;
   }
 `;
 
