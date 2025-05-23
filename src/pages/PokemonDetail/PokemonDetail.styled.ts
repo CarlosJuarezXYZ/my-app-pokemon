@@ -17,6 +17,9 @@ const Card = styled.div`
   text-align: center;
   max-width: 400px;
   width: 100%;
+  @media (max-width: 600px) {
+  max-width: 330px;
+  }
 `;
 
 export const PokemonDetailStyled = {
