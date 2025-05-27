@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { AppDispatch, RootState } from "../../redux/store";
 import { fetchPokemonDetail, addToHistory } from "../../redux/slices/pokemonSlice";
 import Loader from "../../components/Loader/Loader";

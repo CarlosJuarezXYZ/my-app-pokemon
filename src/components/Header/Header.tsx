@@ -1,13 +1,14 @@
 import { HeaderStyled } from "./Header.styled";
+import { Link } from "react-router-dom";
 
-const { HeaderContainer, NavMenu, NavItem } = HeaderStyled;
+const { HeaderContainer, NavMenu} = HeaderStyled;
 
 const Header = () => {
   return (
     <HeaderContainer>
       <NavMenu>
-        <NavItem to="/">Inicio</NavItem>
-        <NavItem to="/history">Historial</NavItem>
+        <Link to="/">Inicio</Link>
+        <Link to="/history">Historial</Link>
       </NavMenu>
     </HeaderContainer>
   );

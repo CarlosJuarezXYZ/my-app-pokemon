@@ -21,8 +21,8 @@ const Container = styled.div`
 const Title = styled.h2`
   font-size: 2rem;
   font-weight: bold;
-  color: #d32f2f;
-  text-shadow: 2px 2px 0px #ffcc00;
+  color:  #A5D8FF;
+  text-shadow: 2px 2px 0px #fff;
   margin-bottom: 20px;
 `;
 
