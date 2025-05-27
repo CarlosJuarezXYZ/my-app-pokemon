@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback, useMemo, ChangeEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Modal, Input, Spin, Row, Col } from "antd";
+import { Input, Spin, Row, Col } from "antd";
 import { AppDispatch } from "../../redux/store";
 import {
   fetchAllPokemons,

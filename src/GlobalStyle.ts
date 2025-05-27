@@ -7,16 +7,14 @@ const GlobalStyle = createGlobalStyle<{ themeMode: string }>`
         ? "linear-gradient(135deg, #ffffff, #A5D8FF)"
         : "linear-gradient(135deg, #1A2A3A, #3C5A80)"};
     padding: 15px 10px;
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  top: 0;
-  left: 0;
-  border: ${(props) =>
-      props.themeMode === "light"
-        ? "1px solid #A5D8FF"
-        : "1px solid #3C5A80"};
-  }
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    top: 0;
+    left: 0;
+    border: ${(props) =>
+      props.themeMode === "light" ? "1px solid #A5D8FF" : "1px solid #3C5A80"};
+    }
 
   a {
     text-decoration: none;
